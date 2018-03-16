@@ -6,19 +6,13 @@ var controller = require('../controllers/controller.js')
 router.get('/', controller.index );
 
 //Send register post request to twitter
-router.get('/register', function(req, res, next) {
-  res.send('not implemented yet');
-});
+router.post('/register', controller.register );
 
 //Send login post request to twitter
-router.post('/login', function(req, res, next) {
-  res.send('not implemented yet');
-});
+router.post('/login', controller.login );
 
 //Send logout post request to twitter
-router.post('/logout', function(req, res, next) {
-  res.send('not implemented yet');
-});
+router.get('/logout', controller.logout );
 
 //Show your book page
 router.get('/books', function(req, res, next) {

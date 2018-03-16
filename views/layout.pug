@@ -13,9 +13,65 @@ html
 
 
 		//Internal
-		//script(src='/javascripts/index.js')
+		script(src='/javascripts/layout.js')
 		link(rel="stylesheet" type="text/css" href="/stylesheets/layout.css")
+		if error
+			if error.type=='login'
+				script(src='/javascripts/errorlogin.js')
+			if error.type=='register'
+				script(src='/javascripts/errorreg.js')
 	body
+		// Sign-up Modal
+		#modal-sign.modal.fade(tabindex='-1', role='dialog', aria-labelledby='modal', aria-hidden='true')
+			.modal-dialog(role='document')
+				.modal-content
+					.modal-header
+						h5#modalLabel.modal-title Sign-up
+						button.close.btn.btn-sm(type='button', data-dismiss='modal', aria-label='Close')
+							span(aria-hidden='true') ×
+					.modal-body
+						form(method='post', action='/register')
+							.form-group
+								label(for='inputEmail') Email
+								input#signEmail.form-control(type='email', name='email', placeholder='Enter email address')
+								small#emailHelp.form-text.text-muted We'll never share your email with anyone else.
+							.form-group
+								label(for='inputUsername') Username
+								input#signUsername.form-control(type='text', name='username', placeholder='Enter username', pattern='.{6,15}', required='', title='6 characters minimum, maximum 15.')
+							.form-group
+								label(for='inputPassword') Password
+								input#inputPassword.form-control(type='password', name='password', placeholder='Password', required='', pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}', title='Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters')
+							.form-group
+								input#passwordConf.form-control(type='password', name='passwordConf', placeholder='Confirm password', required='', pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}', title='Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters')
+								if error
+									if error.type == 'register'
+										.errdivreg
+											p.err #{error.error}
+							button#signSubmit.btn.btn-primary(type='submit') Submit
+		// Login Modal
+		#modal-login.modal.fade(tabindex='-1', role='dialog', aria-labelledby='modal', aria-hidden='true')
+			.modal-dialog(role='document')
+				.modal-content
+					.modal-header
+						h5#modalLabel.modal-title Login
+						button.close(type='button', data-dismiss='modal', aria-label='Close')
+							span(aria-hidden='true') ×
+					.modal-body
+						form(action='/login', method='post')
+							.form-group
+								label(for='loginEmail') Email
+								input#loginEmail.form-control(type='email', placeholder='Enter email', name='email' required)
+							.form-group
+								label(for='loginPassword') Password
+								input#loginPassword.form-control(type='password', placeholder='Password', name='password' required)
+							.form-check
+								input#loginCheck.form-check-input(type='checkbox')
+								label.form-check-label(for='loginCheck') Remember me
+								if error
+									if error.type == 'login'
+										.errdivlog
+											p.err #{error.error}
+							button#loginSubmit.btn.btn-primary(type='submit') Submit
 		.container
 			nav.navbar.navbar-expand-lg.navbar-light.bg-light
 				a.navbar-brand(href='#') goodBooks
@@ -24,7 +80,7 @@ html
 				#navbarSupportedContent.collapse.navbar-collapse
 					ul.navbar-nav.mr-auto
 						li.nav-item.active
-							a.nav-link(href='#')
+							a.nav-link(href='/')
 								| Home 
 								span.sr-only (current)
 						li.nav-item
@@ -36,12 +92,22 @@ html
 								| All books
 								span.sr-only (current)
 					ul.navbar-nav.mr-auto.usernav
-						li.nav-item
-							a.nav-link(href='#')
-								|Login
-								span.sr-only (current)
-						li.nav-item
-							a.nav-link(href='#')
-								|Sign-up
-								span.sr-only (current)
+						if session
+							li.nav-item
+								a.nav-link(href="/user")
+									|Welcome #{username}
+									span.sr-only (current)
+							li.nav-item
+								a.nav-link(href="/logout")
+									|Logout
+									span.sr-only (current)
+						else
+							li.nav-item
+								a.nav-link(data-toggle="modal" data-target="#modal-login")
+									|Login
+									span.sr-only (current)
+							li.nav-item
+								a.nav-link(data-toggle="modal" data-target="#modal-sign")
+									|Sign-up
+									span.sr-only (current)
 		block content

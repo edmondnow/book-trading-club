@@ -1,23 +1,36 @@
-var express = require('express');
+var express = require('express'
+  );
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 
 var router = require('./routes/router');
 
 var app = express();
 
 //connect to db
-mongoose.connect("mongodb://test:test@ds129156.mlab.com:29156/todoed");
+mongoose.connect("mongodb://test:test@ds115799.mlab.com:15799/goodbooks");
 
 mongoose.connection.once('open', function(){
   console.log("Connection made. Now for fireworks... ");
 }).on("error", function(error){
   console.log("Connection error: " + error);
 });
+
+//use sessions for tracking logins
+app.use(session({
+  secret: 'work hard',
+  resave: true,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection
+  })
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
