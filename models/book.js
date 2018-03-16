@@ -7,10 +7,17 @@ var BookSchema = new Schema(
     title: {type: String, required: true},
     author: {type: String, required: true},
     //lookup default settings in mongoose and url
-    cover:  {type: String, default: '/images/placeholder.jpg'},
+    cover:  {type: String,  default: '/images/placeholder.jpg'}
   }
 );
 
+BookSchema.pre('save', function(next) {
+    if (this.cover.length === 0 ) {
+        this.cover = '/images/placeholder.jpg';
+    }
+
+    next();
+});
 
 //Export model
 module.exports = mongoose.model('Book', BookSchema);

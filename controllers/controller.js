@@ -89,15 +89,33 @@ exports.logout = function(req, res){
   }
 }
 
-exports.books_get = function(req, res){
+exports.book_post = function(req, res){
 
+  var book = new Book({
+    author: req.body.author,
+    title: req.body.title,
+    cover: req.body.cover
+  })
+
+
+  book.save( function(err, book){
+    if(err) console.log(err)
+     User.findByIdAndUpdate({_id: req.session.userId}, {$push:{books: book._id}}, {new: true}).populate('books').exec(function(err, userData){
+        if(err) console.log(err)
+        res.render('book', {title: 'goodBooks', session: true, username: userData.username, books: userData.books, msg: 'Book was saved successfully',  error: false});
+    })
+  })
 }
 
 exports.book_get = function(req, res){
-
+  User.findById({_id: req.session.userId}).populate('books').exec(function(err, userData){
+      if(err) console.log(err)
+      console.log(userData.books);
+      res.render('book', {title: 'goodBooks', session: true, username: userData.username, books: userData.books, error: false});
+    })
 }
 
-exports.book_post = function(req, res){
+exports.books_post = function(req, res){
 
 }
 

@@ -48,6 +48,7 @@ html
 										.errdivreg
 											p.err #{error.error}
 							button#signSubmit.btn.btn-primary(type='submit') Submit
+
 		// Login Modal
 		#modal-login.modal.fade(tabindex='-1', role='dialog', aria-labelledby='modal', aria-hidden='true')
 			.modal-dialog(role='document')
@@ -83,14 +84,15 @@ html
 							a.nav-link(href='/')
 								| Home 
 								span.sr-only (current)
-						li.nav-item
-							a.nav-link(href='#')
-								| My books 
-								span.sr-only (current)
-						li.nav-item
-							a.nav-link(href='#')
-								| All books
-								span.sr-only (current)
+						if session
+							li.nav-item
+								a.nav-link(href='/book')
+									| My books 
+									span.sr-only (current)
+							li.nav-item
+								a.nav-link(href='/')
+									| All books
+									span.sr-only (current)
 					ul.navbar-nav.mr-auto.usernav
 						if session
 							li.nav-item

@@ -1,0 +1,42 @@
+extends layout
+
+append head
+  link(href="/stylesheets/book.css" rel="stylesheet" type="text/css")
+
+block content 
+  .container.inner-container
+    .row
+      .col-md-6
+        h4 Request log
+        if requests
+          //add iterations here
+          p There are requests
+        else
+          p You currently have no requests pending.
+    .row 
+      .col-md-6
+        h4 Add a book
+        if msg
+          p.msg=msg
+        form(action="/book" method="post")
+          .form-group
+            label(for='Author') Author
+            input#author.form-control(type='text', placeholder='Naomi Klein', name="author", required)
+          .form-group
+            label(for='title') Title
+            input#title.form-control(type='text', placeholder='This Changes Everything', name="title", required)
+          .form-group
+            label(for='cover') URL to cover
+            input#cover.form-control(type='text', placeholder='http://website.com/image.jpg', name="cover")
+          button.btn.btn-info(type="submit") Add book
+    .row
+        h4 Your books
+        if books
+          .books-container
+            each book in books
+              .book-container
+                img.cover(src=book.cover, alt="cover")
+                p.btext.toptext #{book.author}
+                p.btext #{book.title}
+        else 
+          p You have no books yet
