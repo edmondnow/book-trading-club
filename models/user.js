@@ -29,7 +29,8 @@ var UserSchema = new Schema({
   books: [{type: Schema.ObjectId, ref: 'Book'}],
   trades: [{type: Schema.ObjectId, ref: 'Trade'}],
   state: String,
-  city: String
+  city: String,
+  name: String
 });
 
 //authenticate input against database

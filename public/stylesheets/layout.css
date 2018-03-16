@@ -28,6 +28,9 @@ body {
 
 }
 
+.container {
+  padding: 0px !important;
+}
 
 #loginCheck{
   position: relative;

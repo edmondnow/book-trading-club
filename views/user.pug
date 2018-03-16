@@ -1,0 +1,18 @@
+extends layout
+append head 
+  link(href='/stylesheets/user.css' type="text/css" rel="stylesheet")
+block content 
+  .container.inner-container
+    if msg 
+      p.msg=msg
+    form(action="/user" method="post")
+      .form-group
+        label(for='fullname') Full Name
+        input#fullname.form-control(type='text', placeholder='Stephen Hawking', name="name", value=name)
+      .form-group
+        label(for='state') State/Country
+        input#state.form-control(type='text', name="state",  placeholder='United Kingdom', value=state)
+      .form-group
+        label(for='city') City
+        input#city.form-control(type='text', name="city", placeholder='Oxford', value=city)
+      button.btn.btn-info(type="submit") Submit

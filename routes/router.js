@@ -31,14 +31,10 @@ router.post('/book', function(req, res, next) {
 });
 
 //Send user information
-router.get('/user', function(req, res, next) {
-  res.send('not implemented yet');
-});
+router.get('/user', controller.user_get )
 
 //Save new user information
-router.post('/user', function(req, res, next) {
-  res.send('not implemented yet');
-});
+router.post('/user', controller.user_post )
 
 
 module.exports = router;

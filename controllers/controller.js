@@ -102,9 +102,25 @@ exports.book_post = function(req, res){
 }
 
 exports.user_get = function(req, res){
-
+    if(req.session.userId){
+    User.findById({_id: req.session.userId}).exec(function(err, userData){
+      if(err) console.log(err)
+          res.render('user', {title: 'goodBooks', session: true, username: userData.username, name: userData.name, state: userData.state, city: userData.city,  error: false});
+    })
+    } else {
+      res.redirect('/');
+    }
 }
 
 exports.user_post = function(req, res){
-
+    if(req.session.userId){
+    User.findByIdAndUpdate(req.session.userId, {name: req.body.name, state: req.body.state, city: req.body.city}, {new: true}).exec(function(err, userData){
+      if(err) console.log(err)
+      console.log(userData)
+      res.render('user', {title: 'goodBooks', session: true, username: userData.username, name: userData.name, state: userData.state, city: userData.city, msg: 'Your user data was updated.',  error: false});
+    })
+    } else {
+      res.redirect('/');
+    }
 }
+
