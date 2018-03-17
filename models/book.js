@@ -19,5 +19,9 @@ BookSchema.pre('save', function(next) {
     next();
 });
 
+BookSchema.virtual('url').get(function(){
+    return '/instance/' + this._id;
+})
+
 //Export model
 module.exports = mongoose.model('Book', BookSchema);

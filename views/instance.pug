@@ -1,0 +1,15 @@
+extends layout 
+append head
+  link(href="/stylesheets/instance.css" type="text/css" rel="stylesheet")
+block content
+    .container.inner-container
+      if tradeBook
+        .row
+          .col-md-6.tradeBook
+            img(src=tradeBook.cover) 
+            p #{tradeBook.author}: #{tradeBook.title}
+          .col-md-6
+
+
+  
+

@@ -32,6 +32,24 @@ body {
   padding: 0px !important;
 }
 
+.footer-container{
+  background-color: white;
+  padding-top: 20px !important;
+  text-align: center;
+}
+
+i {
+  display: inline-block;
+  margin: 0px 5px;
+}
+
+.handle {
+  display: inline-block;
+  position: relative;
+  top: -5px;
+  left: -5px;
+}
+
 #loginCheck{
   position: relative;
   top: 3px;

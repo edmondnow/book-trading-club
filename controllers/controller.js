@@ -10,9 +10,9 @@ const { sanitizeBody } = require('express-validator/filter')
 
 exports.index = function(req, res){
   if(req.session.userId){
-    User.findById({_id: req.session.userId}).exec(function(err, userData){
+    User.findById({_id: req.session.userId}).populate('books').exec(function(err, userData){
       if(err) console.log(err)
-          res.render('index', {title: 'goodBooks', session: true, username: userData.username, error: false});
+          res.render('index', {title: 'goodBooks', session: true, username: userData.username, books: userData.books, error: false});
     })
   } else {
     res.render('index', {title: 'goodBooks', session: false, error: false});
@@ -115,7 +115,19 @@ exports.book_get = function(req, res){
     })
 }
 
-exports.books_post = function(req, res){
+exports.instance_get = function(req, res){
+  console.log(req.params._id)
+  Book.findById(req.params._id, function(err, bookData){
+    if(err) console.log(err)
+      User.findById({_id: req.session.userId}).populate('books').exec(function(err, userData){
+      if(err) console.log(err);
+      res.render('instance', {title: 'goodBooks', session: true, username: userData.username, tradeBook: bookData,
+       userBooks: userData.books, error: false});
+    })
+  })
+}
+
+exports.instance_post = function(req, res){
 
 }
 

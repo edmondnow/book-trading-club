@@ -10,8 +10,6 @@ html
 
 		// External Styles
 		link(href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', rel='stylesheet', integrity='sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN', crossorigin='anonymous')
-
-
 		//Internal
 		script(src='/javascripts/layout.js')
 		link(rel="stylesheet" type="text/css" href="/stylesheets/layout.css")
@@ -75,7 +73,7 @@ html
 							button#loginSubmit.btn.btn-primary(type='submit') Submit
 		.container
 			nav.navbar.navbar-expand-lg.navbar-light.bg-light
-				a.navbar-brand(href='#') goodBooks
+				a.navbar-brand(href='/') goodBooks
 				button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
 					span.navbar-toggler-icon
 				#navbarSupportedContent.collapse.navbar-collapse
@@ -112,4 +110,10 @@ html
 								a.nav-link(data-toggle="modal" data-target="#modal-sign")
 									|Sign-up
 									span.sr-only (current)
-		block content
+	block content
+	block foot
+		.container.footer-container.bg-light
+			p.handle @edmondnow
+			i.fa.fa-github.fa-2x
+			i.fa.fa-linkedin.fa-2x
+			i.fa.fa-twitter.fa-2x

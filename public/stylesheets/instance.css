@@ -1,0 +1,17 @@
+.inner-container{
+  background-color: white;
+  padding: 60px !important;
+  min-height: 83%;
+
+}
+
+img {
+  max-width: 80%;
+  margin: 40px 0px;
+}
+
+.tradeBook{
+  text-align: center;
+  background-color: #F2F2F2;
+  max-width: 25%;
+}

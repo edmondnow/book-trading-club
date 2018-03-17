@@ -1,4 +1,13 @@
 extends layout
-
+append head
+  link(href="/stylesheets/index.css" type="text/css" rel="stylesheet")
 block content
-  
+  .container.inner-container
+    if books
+      .books-container
+        each book in books
+          a(href=book.url)
+            .book-container
+              img.cover(src=book.cover, alt="cover")
+              p.btext.toptext #{book.author}
+              p.btext #{book.title}

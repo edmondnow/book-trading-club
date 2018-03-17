@@ -11,9 +11,10 @@ router.post('/login', controller.login );
 
 router.get('/logout', controller.logout );
 
-router.get('/books', function(req, res, next) {
-  res.send('not implemented yet');
-});
+
+router.get('/instance/:_id', controller.instance_get )
+
+router.post('/instance/:_id', controller.instance_post )
 
 router.get('/book', controller.book_get )
 

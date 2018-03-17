@@ -1,7 +1,7 @@
 .inner-container{
   background-color: white;
   padding: 20px !important;
-
+  min-height: 83%;
 }
 
 .msg{
