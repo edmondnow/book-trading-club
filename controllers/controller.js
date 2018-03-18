@@ -2,6 +2,7 @@
 var User = require('../models/user.js');
 var Book = require('../models/book.js');
 var Trade = require('../models/trade.js');
+var async = require('async');
 
 //please note that that there is no validation mechanism implemented
 const { body,validationResult } = require('express-validator/check');
@@ -9,13 +10,24 @@ const { sanitizeBody } = require('express-validator/filter')
 
 
 exports.index = function(req, res){
+
   if(req.session.userId){
-    User.findById({_id: req.session.userId}).populate('books').exec(function(err, userData){
+    Book.find({}).exec(function(err, bookData){
+      nonUserBooks = [];
+      bookData.forEach(function(book){
+        if(book.owner!=req.session.userId){
+          nonUserBooks.push(book)
+        }
+      })
+      User.findById({_id: req.session.userId}).populate('books').exec(function(err, userData){
       if(err) console.log(err)
-          res.render('index', {title: 'goodBooks', session: true, username: userData.username, books: userData.books, error: false});
+          res.render('index', {title: 'goodBooks', session: true, username: userData.username, books: nonUserBooks, error: false});
+      })
     })
   } else {
-    res.render('index', {title: 'goodBooks', session: false, error: false});
+    Book.find({}).exec(function(err, bookData){
+    res.render('index', {title: 'goodBooks', books: bookData, session: false, error: false});
+    })
   }
 }
 
@@ -109,20 +121,28 @@ exports.book_post = function(req, res){
 }
 
 exports.book_get = function(req, res){
-  Trade.find({owner: req.session.userId}).populate('owner requester offer wanted').exec(function( err, tradeData){
+  Trade.find({}).populate('owner requester offer wanted').exec(function( err, tradeData){
     var requests = [];
     var offers = [];
     tradeData.forEach(function(trade){
-      trade.requester._id == req.session.userId ? requests.push(trade) : offers.push(trade);
+      if(trade.requester._id == req.session.userId){
+       requests.push(trade);
+      };
+      if(trade.owner._id == req.session.userId){
+        offers.push(trade);
+      }
     });
     User.findById({_id: req.session.userId}).populate('books').exec(function(err, userData){
         if(err) console.log(err)
-        var resObj = {title: 'goodBooks', session: true, username: userData.username, books: userData.books, error: false}
+        var resObj = {title: 'goodBooks', session: true, username: userData.username, error: false}
         if(requests.length>0){
           resObj.requests = requests;
         }
         if(offers.length>0){
           resObj.offers = offers;
+        }
+        if(userData.books.length>0){
+          resObj.books = userData.books
         }
         res.render('book', resObj);
     })
@@ -133,9 +153,13 @@ exports.instance_get = function(req, res){
   Book.findById({_id: req.params._id}).populate('owner').exec(function(err, bookData){
     if(err) console.log(err)
       User.findById({_id: req.session.userId}).populate('books').exec(function(err, userData){
-    if(err) console.log(err);
-      res.render('instance', {title: 'goodBooks', session: true, username: userData.username, tradeBook: bookData,
-       userBooks: userData.books, error: false});
+      if(err) console.log(err);
+        var resObj =  {title: 'goodBooks', session: true, username: userData.username, tradeBook: bookData, error: false};
+        if(userData.books.length>0){
+          resObj.userBooks = userData.books
+        } 
+        res.render('instance', resObj);
+         
     })
   })
 }
@@ -177,3 +201,40 @@ exports.user_post = function(req, res){
     }
 }
 
+
+exports.trading = function(req, res){
+  if(req.body.decision == 'accept'){
+    async.parallel([
+      Trade.findByIdAndUpdate(req.body.offerid, {status: 'Accepted'}, function(err){
+        if(err) console.log(err)
+      }),
+      Book.findByIdAndUpdate(req.body.wantedid, {owner: req.body.requesterid}, function(err){
+        if(err) console.log(err)
+      }),
+      Book.findByIdAndUpdate(req.body.offeredid, {owner: req.session.userId}, function(err){
+        if(err) console.log(err)
+      }),
+      User.findByIdAndUpdate(req.session.userId, {$pull: {books: req.body.wantedid}}, function(err){
+        if(err) console.log(err)
+      }),
+      User.findByIdAndUpdate(req.session.userId, {$push: {books: req.body.offeredid}}, function(err){
+        if(err) console.log(err)
+      }),
+      User.findByIdAndUpdate(req.body.requesterid, {$pull: {books: req.body.offeredid}}, function(err){
+        if(err) console.log(err)
+      }),
+      User.findByIdAndUpdate(req.body.requesterid, {$push: {books: req.body.wantedid}}, function(err){
+        if(err) console.log(err)
+      })
+      ], function(err, results){
+        console.log(err);
+        res.redirect('/book')
+      }
+    )
+
+  } else if (req.body.decision == 'decline' ){
+      Trade.findByIdAndUpdate(req.body.offerid, {status: 'Declined'}).exec(function(err, returned){
+        res.redirect('/book')
+      })
+  }
+}

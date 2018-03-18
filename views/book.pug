@@ -9,23 +9,40 @@ block content
 			.col-md-6
 				h4 Request log
 				if requests
-					.formdiv
+					.formdivlog
 						h6 Your requests
 						ul.list-group
 							each request in requests
-									li.list-group-item.list-group-item #{request.wanted.author}: #{request.wanted.title}
+									li.list-group-item
+										span(class=request.color) #{request.status}
+										p.logp #{request.offer.title} for #{request.wanted.title}  
 				else 
-					.formdiv
+					.formdivlog
 						h6 Your requests
 						p You currently have no requests.
 				if offers
-					.formdiv
+					.formdivlog
 						h6 Your offers
 						ul.list-group
 							each offer in offers
-									li.list-group-item.list-group-item #{offer.wanted.author}: #{offer.wanted.title}
+									li.list-group-item
+										span(class=offer.color) #{offer.status}
+										p.logp #{offer.wanted.title} for #{offer.offer.title}
+										if offer.statusCheck
+											.adiv
+												form.formbtn(action='/trading' method="post")
+													input(type="hidden" name="decision" value='accept')
+													input(type="hidden" name="offerid" value=offer._id)
+													input(type="hidden" name="requesterid" value=offer.requester._id)
+													input(type="hidden" name="wantedid" value=offer.wanted._id)
+													input(type="hidden" name="offeredid" value=offer.offer._id)
+													button#accept.btn.btn-sm.btn-success(type="submit") Accept
+												form.formbtn(action='/trading' method="post")
+													input(type="hidden" name="decision" value='decline')
+													input(type="hidden" name="offerid" value=offer._id)
+													button.btn.btn-sm.btn-danger(type="submit") Decline
 				else
-					.formdiv
+					.formdivlog
 						h6 Your offers
 						p You currently have no offers.
 			.col-md-6
@@ -54,4 +71,4 @@ block content
 								p.btext.toptext #{book.author}
 								p.btext #{book.title}
 				else 
-					p You have no books yet
+					p.no You have no books yet

@@ -4,25 +4,61 @@
 
 }
 
-form{
-  margin-top: 20px;
-  background-color: #F2F2F2;
-  padding: 20px;
-  text-align: left;
-}
 
 
 
-.formdiv{
+.formdiv {
   padding: 5px;
   background-color: #F2F2F2;
   padding: 20px;
   margin-top: 20px;
-  text-align: left
+  text-align: left;
 }
 
+
+.formdivlog {
+  padding: 5px;
+  background-color: #F2F2F2;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: left;
+  overflow-y: scroll;
+  height: 158px;
+}
+
+span{
+  margin-right: 10px;
+}
 .msg {
   color: green;
+}
+
+.list-group-item{
+  font-size: 0.8em;
+  height: 40px !important;
+  padding: 8px;
+}
+
+.no {
+  margin-left: 30px;
+}
+
+
+.formbtn{
+  display: inline-block;
+}
+.btn-sm {
+  font-size: 0.6em;
+  margin-left: 5px;
+}
+
+.adiv{
+  display: inline-block;
+  float: right
+}
+
+.logp{
+  display: inline-block;
 }
 
 .books-container{

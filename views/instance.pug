@@ -24,11 +24,17 @@ block content
                 .form-group
                   label(for="tradebook") Book requested
                   input#tradebook.form-control(type='text', value=tradeBook.title, name="tradebooktitle " readonly)
-                .form-group
-                    label.mr-sm-2(for='offer') Offer a book
-                    select#offer.custom-select.mr-sm-2(name="offerid")
-                      each book in userBooks
-                        option(value=book._id) #{book.author}: #{book.title}
+                if userBooks
+                  .form-group
+                      label.mr-sm-2(for='offer') Offer a book
+                      select#offer.custom-select.mr-sm-2(name="offerid")
+                        each book in userBooks
+                          option(value=book._id) #{book.author}: #{book.title}
+                else
+                  p Offer a book
+                  p 
+                    a(href="/book") Please add a book before trading. 
+
                 button.btn.btn-success(type="submit") Submit request
             
 

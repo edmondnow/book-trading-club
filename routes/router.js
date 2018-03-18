@@ -24,5 +24,7 @@ router.get('/user', controller.user_get )
 
 router.post('/user', controller.user_post )
 
+router.post('/trading', controller.trading)
+
 
 module.exports = router;
