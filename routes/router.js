@@ -14,7 +14,7 @@ router.get('/logout', controller.logout );
 
 router.get('/instance/:_id', controller.instance_get )
 
-router.post('/instance/:_id', controller.instance_post )
+router.post('/instance', controller.instance_post )
 
 router.get('/book', controller.book_get )
 

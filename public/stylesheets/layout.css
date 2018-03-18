@@ -28,9 +28,23 @@ body {
 
 }
 
-.container {
+.subtitle{
+
+}
+.navbar-brand {
+  font-family: 'Pacifico', cursive;
+  text-shadow: 2px 2px #FFC107;
+}
+
+h1{
+  font-family: 'Pacifico', cursive;
+  text-shadow: 3px 3px #FFC107;
+}
+
+.container{
   padding: 0px !important;
 }
+
 
 .footer-container{
   background-color: white;

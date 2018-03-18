@@ -94,7 +94,8 @@ exports.book_post = function(req, res){
   var book = new Book({
     author: req.body.author,
     title: req.body.title,
-    cover: req.body.cover
+    cover: req.body.cover,
+    owner: req.session.userId
   })
 
 
@@ -108,19 +109,31 @@ exports.book_post = function(req, res){
 }
 
 exports.book_get = function(req, res){
-  User.findById({_id: req.session.userId}).populate('books').exec(function(err, userData){
-      if(err) console.log(err)
-      console.log(userData.books);
-      res.render('book', {title: 'goodBooks', session: true, username: userData.username, books: userData.books, error: false});
+  Trade.find({owner: req.session.userId}).populate('owner requester offer wanted').exec(function( err, tradeData){
+    var requests = [];
+    var offers = [];
+    tradeData.forEach(function(trade){
+      trade.requester._id == req.session.userId ? requests.push(trade) : offers.push(trade);
+    });
+    User.findById({_id: req.session.userId}).populate('books').exec(function(err, userData){
+        if(err) console.log(err)
+        var resObj = {title: 'goodBooks', session: true, username: userData.username, books: userData.books, error: false}
+        if(requests.length>0){
+          resObj.requests = requests;
+        }
+        if(offers.length>0){
+          resObj.offers = offers;
+        }
+        res.render('book', resObj);
     })
+  })
 }
 
 exports.instance_get = function(req, res){
-  console.log(req.params._id)
-  Book.findById(req.params._id, function(err, bookData){
+  Book.findById({_id: req.params._id}).populate('owner').exec(function(err, bookData){
     if(err) console.log(err)
       User.findById({_id: req.session.userId}).populate('books').exec(function(err, userData){
-      if(err) console.log(err);
+    if(err) console.log(err);
       res.render('instance', {title: 'goodBooks', session: true, username: userData.username, tradeBook: bookData,
        userBooks: userData.books, error: false});
     })
@@ -128,7 +141,17 @@ exports.instance_get = function(req, res){
 }
 
 exports.instance_post = function(req, res){
-
+  var trade = new Trade({
+    requester: req.session.userId,
+    owner: req.body.tradebookownerid,
+    offer: req.body.offerid,
+    wanted: req.body.tradebookid,
+    status: 'Pending'
+    })
+  trade.save( function(err, data){
+    if(err) console.log(err)
+    res.redirect('/book')
+  })
 }
 
 exports.user_get = function(req, res){

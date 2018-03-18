@@ -5,9 +5,20 @@
 }
 
 form{
+  margin-top: 20px;
   background-color: #F2F2F2;
   padding: 20px;
-  border-radius: 10px;
+  text-align: left;
+}
+
+
+
+.formdiv{
+  padding: 5px;
+  background-color: #F2F2F2;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: left
 }
 
 .msg {
@@ -15,7 +26,7 @@ form{
 }
 
 .books-container{
-  float: left;
+  margin-top: 40px;
   padding: 0px;
 }
 
@@ -41,4 +52,14 @@ form{
 
 .toptext{
   margin-top: 10px;
+}
+
+.inner-container{
+  background-color: white;
+  padding: 40px!important;
+  text-align: center;
+}
+
+h4, h6 {
+  font-family: 'Montserrat', sans-serif;
 }

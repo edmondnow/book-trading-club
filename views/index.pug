@@ -1,13 +1,32 @@
 extends layout
 append head
   link(href="/stylesheets/index.css" type="text/css" rel="stylesheet")
+  link(href='https://fonts.googleapis.com/css?family=Cantarell|Montserrat' rel='stylesheet')
 block content
   .container.inner-container
+    .row
+      .container.title-container
+        hr
+        h1 goodBooks
+        .subtitle-div
+          p.subtitle Polaroid hot chicken microdosing direct trade helvetica shoreditch, williamsburg disrupt ugh echo park flexitarian semiotics.
+          if session
+            a.btn.btn-success.btn-md(href='/book') Add a book
+            a.btn.btn-success.btn-md.btn-warning(href='/#trade') Trade a book
+          else
+            a.btn.btn-success.btn-lg(href='/sign-up') Sign-up
+            a.btn.btn-md.btn-warning(href='/#trade') Trade a book
+        hr
+    .row
+    section#trade
     if books
       .books-container
+        h2 Trade Books
+        .subtitle-div
+          p.subtitle Williamsburg disrupt ugh echo park flexitarian semiotics.
         each book in books
-          a(href=book.url)
             .book-container
               img.cover(src=book.cover, alt="cover")
               p.btext.toptext #{book.author}
               p.btext #{book.title}
+              a.btn.btn-warning(href=book.url) Request Trade

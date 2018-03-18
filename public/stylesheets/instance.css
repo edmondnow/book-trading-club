@@ -15,3 +15,19 @@ img {
   background-color: #F2F2F2;
   max-width: 25%;
 }
+
+.form-div{
+  width: 80%;
+  float: right;
+
+  margin: 0 auto;
+}
+
+.list-group-item-warning{
+  text-align: center;
+  font-weight: bold;
+}
+
+button{
+  margin-top: 20px;
+}

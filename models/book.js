@@ -7,7 +7,8 @@ var BookSchema = new Schema(
     title: {type: String, required: true},
     author: {type: String, required: true},
     //lookup default settings in mongoose and url
-    cover:  {type: String,  default: '/images/placeholder.jpg'}
+    cover:  {type: String,  default: '/images/placeholder.jpg'},
+    owner: {type: Schema.ObjectId, ref: 'User', required: true}
   }
 );
 

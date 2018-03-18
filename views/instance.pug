@@ -5,10 +5,32 @@ block content
     .container.inner-container
       if tradeBook
         .row
-          .col-md-6.tradeBook
+          .col-md-4.tradeBook
             img(src=tradeBook.cover) 
             p #{tradeBook.author}: #{tradeBook.title}
-          .col-md-6
+          .col-md-8
+            .form-div
+              ul.list-group
+                li.list-group-item.list-group-item-warning #{tradeBook.author}: #{tradeBook.title} Information
+                li.list-group-item Owner: #{tradeBook.owner.username}
+                li.list-group-item State: #{tradeBook.owner.state}
+                li.list-group-item City: #{tradeBook.owner.city}
+
+              form(action="/instance" method="post")
+                .form-group
+                  input#bookId.form-control(type='hidden', value=tradeBook._id, name="tradebookid")
+                .form-group
+                  input#bookId.form-control(type='hidden', value=tradeBook.owner._id, name="tradebookownerid")
+                .form-group
+                  label(for="tradebook") Book requested
+                  input#tradebook.form-control(type='text', value=tradeBook.title, name="tradebooktitle " readonly)
+                .form-group
+                    label.mr-sm-2(for='offer') Offer a book
+                    select#offer.custom-select.mr-sm-2(name="offerid")
+                      each book in userBooks
+                        option(value=book._id) #{book.author}: #{book.title}
+                button.btn.btn-success(type="submit") Submit request
+            
 
 
   

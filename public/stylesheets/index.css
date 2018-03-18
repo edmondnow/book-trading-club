@@ -1,11 +1,52 @@
 .inner-container{
   background-color: white;
-  padding: 20px !important;
-
+  padding: 40px!important;
+  text-align: left;
 }
 
+.title-container{
+  text-align: center;
+  margin: 60px auto;
+}
 
+.btn {
+  margin-top: 20px;
+  color: white;
+}
 
+hr {
+  width: 80%;
+  margin: 60px auto;
+}
+
+.btn {
+  margin: 10px;
+}
+
+.books-container{
+  text-align: center;
+}
+
+.formdiv{
+  width: 80%;
+  float: left;
+  margin: 0 auto;
+  background-color: #F2F2F2;
+}
+
+.subtitle-div{
+  margin: 5% auto;
+  max-width: 50%;
+}
+
+h2{
+  font-family: 'Montserrat', sans-serif;
+}
+
+.subtitle{
+  font-family: 'Cantarell', sans-serif;
+  font-size: 1.2em;
+}
 
 .book-container{
   display: inline-block;
