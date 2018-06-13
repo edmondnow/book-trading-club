@@ -14,7 +14,7 @@ var router = require('./routes/router');
 var app = express();
 
 //connect to db
-mongoose.connect("mongodb://test:test@ds115799.mlab.com:15799/goodbooks");
+mongoose.connect(`mongodb://${process.env.USER}:${process.env.PASS}@ds115799.mlab.com:15799/goodbooks`);
 
 mongoose.connection.once('open', function(){
   console.log("Connection made. Now for fireworks... ");

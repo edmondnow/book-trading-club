@@ -10,7 +10,6 @@ const { sanitizeBody } = require('express-validator/filter')
 
 
 exports.index = function(req, res){
-
   if(req.session.userId){
     Book.find({}).exec(function(err, bookData){
       nonUserBooks = [];
@@ -58,7 +57,7 @@ exports.register = function(req, res){
         req.session.userId = user._id;
         User.findById({_id: req.session.userId}).exec(function(err, userData){
           if(err) console.log(err)
-              res.redirect('/')
+              res.redirect('/book')
         })
       }
     });
